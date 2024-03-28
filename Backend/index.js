@@ -10,6 +10,7 @@ const port = process.env.PORT || 3000; // Use environment variable or default po
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(cors());
+app.use(express.json());
 
 // Configure Multer (file upload middleware)
 const storage = multer.diskStorage({
@@ -60,6 +61,16 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ message: 'An error occurred during upload' });
   }
 });
+app.post('/question', async(req, res) => {
+    try {
+      const question = await req.body.text;
+      console.log(question);
+      res.status(200).json({ message: "Question added" });
+    } catch (error) { // Catch more specific errors if possible
+      console.error(error); // Use a descriptive variable name (e.g., processingError)
+      res.status(500).json({ message: "An error occurred" }); // Provide a generic error message to the client
+    }
+  });
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
