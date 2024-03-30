@@ -5,8 +5,6 @@ const TextInput = ({ onStateChange }) => {
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [questions,setQuestions]=useState([])
-  const [answers,setAnswers]=useState(["Rohan","I am fine"])
   const [childState,setChildState]=useState({
     Questions:[],
     Answers:[],
@@ -17,18 +15,6 @@ const TextInput = ({ onStateChange }) => {
     
   };
   const HandleClick=async()=>{
-        if (inputValue){
-         setChildState({
-            ...childState,
-        
-            Questions:[...childState.Questions,inputValue],
-            Answers:[...childState.Answers,'this is answer'],
-           })
-        }
-        // onStateChange(childState);
-        setInputValue('');
-        
-
     try {
         const response=await fetch('http://localhost:3000/question',{
         method: 'POST',
@@ -37,14 +23,24 @@ const TextInput = ({ onStateChange }) => {
     })
 
         setSuccessMessage("Question Sent Successfully");
-        
+        const data=await response.json();
         if (response.ok)
         {
-          setQuestions([...questions,inputValue]);
-          setAnswers([...answers,response]);
+          if (inputValue){
+            setChildState({
+               ...childState,
+           
+               Questions:[...childState.Questions,inputValue],
+               Answers:[...childState.Answers,data.message],
+              })
+           }
+           // onStateChange(childState);
+           setInputValue('');
+          //  setQuestions([...questions,inputValue]);
+          //  setAnswers([...answers,response]);
 
         }
-        console.log(response);
+        // console.log(response);
         
     } catch (error) {
         setErrorMessage("error sending your question",error);
@@ -56,7 +52,7 @@ const TextInput = ({ onStateChange }) => {
   };
   useEffect(() => {
     onStateChange(childState);
-    console.log(childState);
+    // console.log(childState);
   }, [childState, onStateChange]);
 
   return (
@@ -73,7 +69,7 @@ const TextInput = ({ onStateChange }) => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      <button type="submit" onClick={HandleClick}>Search</button>
+      <button type="submit" disabled={!inputValue} onClick={HandleClick}>Search</button>
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {successMessage  && <p>{successMessage}</p>}
     </div>

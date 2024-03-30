@@ -7,9 +7,6 @@ const fs = require('fs');
 // Replace with your chosen NLP library's JavaScript bindings
 const pdfParse = require('pdf-parse');
 
-const spacy = require('spacy');
-const {LLMChain} = require('langchain')
-
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
 var bodyParser = require('body-parser')
@@ -66,7 +63,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     // Parse the PDF content using pdf-parse
     const parsedData = await pdfParse(buffer);
     // Access the extracted text (or other data based on the library)
-    const textContent = parsedData.text;
+    textContent = parsedData.text;
 
 
     console.log(textContent);
@@ -82,11 +79,11 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 app.post('/question', async(req, res) => {
     try {
       question = await req.body.text;
-      console.log(question);
-      const answer = await processText(textContent, question);
-      res.status(200).json(answer)
+      // console.log(question);
+      // const answer = await processText(textContent, question);
+      res.status(200).json({message:"this is the answer"});
     } catch (error) { // Catch more specific errors if possible
-      console.error(error); // Use a descriptive variable name (e.g., processingError)
+      // console.error(error); // Use a descriptive variable name (e.g., processingError)
       res.status(500).json(error); // Provide a generic error message to the client
     }
   });
