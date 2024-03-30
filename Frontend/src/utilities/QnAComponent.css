@@ -1,0 +1,21 @@
+.qna-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .qna-item {
+    margin-bottom: 1rem; /* Add some spacing between items */
+  }
+  
+  .question {
+    background-color: #e0e0e0; /* Light gray background for questions */
+    padding: 1rem;
+    border-radius: 4px; /* Rounded corners */
+  }
+  
+  .answer {
+    background-color: #f5f5f5; /* Light blue background for answers */
+    padding: 1rem;
+    border-radius: 4px; /* Rounded corners */
+  }
+  

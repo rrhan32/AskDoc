@@ -4,31 +4,27 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import PdfUploader from './utilities/pdfUploader'
 import TextInput from './utilities/TextInput'
+import Navbar from './utilities/Navbar'
+import QnAComponent from './utilities/QnAComponent'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [parentState, setParentState] = useState({});
+
+  const handleStateChange = (value) => {
+    setParentState(value);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
+       <Navbar/>
+       
        <PdfUploader/>
-       <TextInput/>
+       <QnAComponent questions={parentState.Questions} answers={parentState.Answers}/>
+       {/* <div>{parentState.Questions}</div> */}
+       <div className="bottom">
+       <TextInput onStateChange={handleStateChange}/>
+       </div>
+      
     </>
   )
 }

@@ -1,0 +1,42 @@
+.text-input-container {
+    display: flex; /* Use flexbox for horizontal alignment */
+    justify-content: space-between; /* Distribute elements with space */
+    align-items: center; /* Vertically center elements */
+  }
+  
+  .text-input {
+    /* Existing styles from previous responses... */
+  /* Base styles */
+  display: block;
+  width: 75%; /* Set width to 75% for covering most of the screen */
+  padding: 15px 20px; /* Adjust padding as needed */
+  margin:15px;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Increase roundness of corners */
+  font-size: 16px;
+  background-color: #fff;
+
+  /* Focus styles (optional) */
+  &:focus {
+    outline: none;
+    border-color: #3399ff;
+  }
+
+  /* Additional styling for a prompt box-like appearance */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  }
+  
+  .search-button { /* New class for the button */
+    background-color: #3399ff; /* Adjust button color as desired */
+    color: #fff; /* Adjust button text color as desired */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 15px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as desired */
+    cursor: pointer; /* Indicate hover effect for button */
+  
+    /* Optional: Adjust margin for spacing between input and button */
+    margin-left: 10px; /* Adjust spacing as needed */
+  }
+  

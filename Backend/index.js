@@ -3,7 +3,12 @@ const multer = require('multer');
 const path = require('path'); // Optional, for handling file paths
 const cors=require("cors");
 const fs = require('fs');
+// const { LLMChain } = require('langchain');
+// Replace with your chosen NLP library's JavaScript bindings
 const pdfParse = require('pdf-parse');
+
+const spacy = require('spacy');
+const {LLMChain} = require('langchain')
 
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -11,6 +16,9 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(cors());
 app.use(express.json());
+
+let textContent=null;
+let question=null;
 
 // Configure Multer (file upload middleware)
 const storage = multer.diskStorage({
@@ -21,6 +29,16 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+async function processText(text, question) {
+  const nlp = await spacy.load('en_core_web_sm'); // Adjust model name if needed
+  const doc = nlp(text);
+
+  const llmChain = new LLMChain(new TextPrompt(question));
+  const answer = await llmChain.run(doc.text);
+
+  return answer;
+}
 
 // Upload route handler
 app.post('/upload', upload.single('file'), async (req, res) => {
@@ -63,12 +81,13 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 });
 app.post('/question', async(req, res) => {
     try {
-      const question = await req.body.text;
+      question = await req.body.text;
       console.log(question);
-      res.status(200).json({ message: "Question added" });
+      const answer = await processText(textContent, question);
+      res.status(200).json(answer)
     } catch (error) { // Catch more specific errors if possible
       console.error(error); // Use a descriptive variable name (e.g., processingError)
-      res.status(500).json({ message: "An error occurred" }); // Provide a generic error message to the client
+      res.status(500).json(error); // Provide a generic error message to the client
     }
   });
 

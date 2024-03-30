@@ -24,10 +24,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -53,6 +49,16 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+.bottom {
+  position: fixed; /* Fix the element to the viewport */
+  bottom: 0; /* Position at the bottom of the screen */
+  left: 50%; /* Center horizontally (initial position) */
+  transform: translate(-50%); /* Offset horizontally by half its width */
+  display: flex; /* Enable flexbox layout for alignment */
+  flex-direction: row; /* Arrange items in a row */
+  align-items: center; /* Align items vertically in the center */
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
